@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPEC Verification</title>
+    <style>
+        /* Global styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        /* Top Header styling */
+        .top-header {
+            background-color: #042c58;
+            color: white;
+            padding: 10px;
+            text-align: right;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .top-header a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+        .top-header a:hover {
+            text-decoration: underline;
+        }
+        /* Sidebar styling */
+        .sidebar {
+            background-color: #042c58;
+            color: #ffffff;
+            padding: 60px 20px 20px;
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            text-align: center;
+            font-weight: normal;
+        }
+        .sidebar a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .sidebar a:hover {
+            background-color: #6ab2e7;
+        }
+        .sidebar a.active {
+            background-color: #6ab2e7;
+        }
+        /* Main content styling */
+        .main {
+            margin-left: 250px;
+            padding: 80px 20px 20px;
+            width: calc(100% - 250px);
+            background-color: #f4f4f4;
+            margin-top: 50px; /* Adjusted to provide space for the sticky header */
+            flex: 1; /* Ensures main content fills available space */
+        }
+        h1 {
+            color: #042c58;
+        }
+        /* Sections styling */
+        .content-section {
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Experiment cards styling */
+        .experiment-list {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .experiment-card {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            width: calc(50% - 10px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .experiment-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .experiment-card h3 {
+            color: #042c58;
+        }
+        /* "Learn More" button and details styling */
+        .details {
+            margin-top: 10px;
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .experiment-card button {
+            background-color: #042c58;
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .experiment-card button:hover {
+            background-color: #6ab2e7;
+        }
+        /* Footer styling */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #042c58;
+            color: #ffffff;
+            font-size: 14px;
+            position: relative;
+            width: 100%;
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        .footer a:hover {
+            color: #6ab2e7;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header with quick links -->
+    <div class="top-header">
+        <a href="#overview">Home</a>
+        <a href="#contact">Contact</a>
+        <a href="#team">Our Team</a>
+    </div>
+
+    <!-- Sidebar navigation -->
+    <div class="sidebar">
+        <h2>UPEC</h2>
+        <a href="#overview">Overview</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#results">Experiments & Results</a>
+    </div>
+    
+    <!-- Main content area -->
+    <div class="main">
+        <!-- Overview section -->
+        <div id="overview" class="content-section fade-in">
+            <h1>Unique Program Execution Checking</h1>
+            <p>Unique Program Execution Checking (UPEC) is a verification methodology designed to assess the security of programs in the presence of confidential information, commonly referred to as "secrets." At its core, UPEC aims to determine whether the execution of a program remains invariant despite the presence of such secrets. This is formalized through the concept of unique program execution, which asserts that a program's behavior must not depend on the secret value across all execution cycles. To achieve this, UPEC constructs a tailored miter model where two instances of a CPU execute the same program under identical conditions, except for one protected memory location that contains the secret. By examining variations in execution behavior at the microarchitectural level—known as the "microarchitectural footprint"—UPEC identifies potential vulnerabilities that could arise from secret-dependent variations, which may not be evident at the instruction set architecture (ISA) level. This comprehensive approach allows for the verification of security properties in complex out-of-order processors, ensuring that sensitive information remains secure throughout program execution..</p>
+        </div>
+        
+        <!-- Methodology section -->
+        <div id="methodology" class="content-section fade-in">
+            <h1>Methodology</h1>
+            <p>UPEC ensures unique program execution by checking if a secret affects the execution flow, based on microarchitectural footprints, rather than on an architectural (ISA) level. UPEC accomplishes this by verifying two execution traces simultaneously using a miter model, where two CPU instances start with identical states and content, differing only in a secret-protected memory location.</p>
+        </div>
+
+        <!-- Experiments and Results section -->
+        <div id="results" class="content-section fade-in">
+            <h1>Experiments and Results</h1>
+            <div class="experiment-list">
+                <div class="experiment-card">
+                    <h3>Transient Execution Side Channels</h3>
+                    <p>Exposed issues in speculative execution that allowed leakage of secret data due to mispredicted hardware paths.</p>
+                    <button onclick="toggleDetails('transient-details')">Learn More</button>
+                    <div id="transient-details" class="details">
+                        <p>UPEC identified these risks by checking for speculative behavior at the microarchitectural level, safeguarding sensitive data.</p>
+                    </div>
+                </div>
+                <div class="experiment-card">
+                    <h3>Timing Side Channels</h3>
+                    <p>Detected timing-based vulnerabilities where certain memory access timings could reveal confidential data.</p>
+                    <button onclick="toggleDetails('timing-details')">Learn More</button>
+                    <div id="timing-details" class="details">
+                        <p>Further analysis revealed timing discrepancies in specific memory access, potentially leaking information to unauthorized observers.</p>
+                    </div>
+                </div>
+                <div class="experiment-card">
+                    <h3>PMP Violations</h3>
+                    <p>Found weaknesses in Physical Memory Protection (PMP) that allowed unauthorized access to protected memory regions.</p>
+                    <button onclick="toggleDetails('pmp-details')">Learn More</button>
+                    <div id="pmp-details" class="details">
+                        <p>UPEC demonstrated these access control vulnerabilities, providing insights for improving security in several processor cores.</p>
+                    </div>
+                </div>
+                <div class="experiment-card">
+                    <h3>Access Violations in SoCs</h3>
+                    <p>Detected access violations within SoC (System-on-Chip) environments that could lead to integrity compromises.</p>
+                    <button onclick="toggleDetails('soc-details')">Learn More</button>
+                    <div id="soc-details" class="details">
+                        <p>Access control issues were identified, revealing the need for stricter enforcement in complex SoC designs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2023 UPEC Verification Group | <a href="#contact">Contact Us</a></p>
+    </div>
+
+    <script>
+        function toggleDetails(id) {
+            const details = document.getElementById(id);
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Highlight active sidebar link based on scroll position
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.content-section');
+            const sidebarLinks = document.querySelectorAll('.sidebar a');
+            let index = sections.length;
+            while (--index && window.scrollY + 100 < sections[index].offsetTop) {}
+            sidebarLinks.forEach(link => link.classList.remove('active'));
+            sidebarLinks[index].classList.add('active');
+        });
+
+        // Animate content on scroll
+        const fadeIns = document.querySelectorAll('.fade-in');
+        function checkFadeIn() {
+            fadeIns.forEach(fadeIn => {
+                const rect = fadeIn.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    fadeIn.classList.add('visible');
+                }
+            });
+        }
+        window.addEventListener('scroll', checkFadeIn);
+        window.addEventListener('load', checkFadeIn);
+    </script>
+</body>
+</html>
+
