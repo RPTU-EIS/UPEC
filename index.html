@@ -82,6 +82,11 @@
         }
         h1 {
             color: #042c58;
+            margin-bottom: 15px;
+        }
+        h2 {
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
         /* Sections styling */
         .content-section {
@@ -118,6 +123,7 @@
         }
         .experiment-card h3 {
             color: #042c58;
+            margin-bottom: 10px;
         }
         /* "Learn More" button and details styling */
         .details {
@@ -128,6 +134,7 @@
             display: none;
         }
         .experiment-card button {
+            margin-top: 10px;
             background-color: #042c58;
             color: #ffffff;
             border: none;
@@ -161,8 +168,8 @@
     <!-- Top Header with quick links -->
     <div class="top-header">
         <a href="#overview">Home</a>
-        <a href="#contact">Contact</a>
-        <a href="#team">Our Team</a>
+        <a href="https://eit.rptu.de/fgs/eis/">Contact</a>
+        <a href="https://eit.rptu.de/fgs/eis/people">Our Team</a>
     </div>
 
     <!-- Sidebar navigation -->
@@ -170,7 +177,7 @@
         <h2>UPEC</h2>
         <a href="#overview">Overview</a>
         <a href="#methodology">Methodology</a>
-        <a href="#results">Experiments & Results</a>
+        <a href="#results">Case Studies</a>
     </div>
     
     <!-- Main content area -->
@@ -184,12 +191,45 @@
         <!-- Methodology section -->
         <div id="methodology" class="content-section fade-in">
             <h1>Methodology</h1>
-            <p>UPEC ensures unique program execution by checking if a secret affects the execution flow, based on microarchitectural footprints, rather than on an architectural (ISA) level. UPEC accomplishes this by verifying two execution traces simultaneously using a miter model, where two CPU instances start with identical states and content, differing only in a secret-protected memory location.</p>
+            <p>Given an RTL design, UPEC can exhaustively detect and track every possible propagation of confidential information or malicious interference, without augmenting source code or explicitly labelling the signals. This is made possible by the underlying computational model calles "miter".</p>
+                <h2>Computational Model</h2>
+                <img src="UPEC_computational_model.png" alt="UPEC Computational Model" style="max-width:35%; height:auto; margin-top:15px; border-radius:8px;">
+                <p>The miter consists of two identical instances
+of the design under verification (DUV), where each instance
+models an execution trace of the DUV. Every logic signal
+in the DUV is initialized to an arbitrary value which is,
+however, constrained to be the same in both DUV instances
+in the miter. The only unconstrained signals are contained
+in a defined set of state-holding signals and inputs, called
+the Source of Discrepancy (SoD). The miter allows us to
+model the propagation of information from the SoD to any
+signal in the DUV by comparing the two execution traces.
+The SoD is selected depending on the threat model. If
+confidentiality of data is being verified, the SoD consists
+of signals holding private data, e.g., a protected memory
+region. Alternatively, if system integrity is the verification
+target, then the SoD comprises the signals in an untrusted
+HW component. UPEC determines whether such an IP can
+interfere with the protected state of the system by detecting
+a malicious propagation from the SoD.</p>
+                <h2>Generic UPEC Property</h2>
+
+                <img src="generic_UPEC_property.png" alt="Generic UPEC Property" style="max-width:35%; height:auto; margin-top:15px; border-radius:8px;">
+
+                <p>We formulate a generic UPEC property which assumes that, at timepoint t, all state-holding signals S of the DUV have the same values in both instances, except for the SoD. Similarly, all inputs I not in the SoD are constrained to be equal for the time window [t, t + k].
+Depending on the application, it may be necessary to specify additional assumptions, e.g., an unprivileged user or a configured protection mechanism. This is represented by the threat_model() macro. The property then verifies that, for the given time window [t, t + k], there is no
+new deviation of the remaining state-holding signals or the outputs O. Since the SoD represents the only difference in the system, every counterexample must originate from this set.
+
+The UPEC property does not depend on the functional correctness of the DUV, since it merely analyzes equivalence between the two instances. Abstracting from the functional correctness of the DUV contributes greatly to the scalability of the method. In addition, UPEC is based on Interval
+Property Checking (IPC) which makes it possible to handle long propagation paths. In IPC, proofs do not start from the reset state of the DUV, but from any arbitrary state, called symbolic initial state. This allows us to implicitly model any history of the DUV, such as mistraining branch
+predictors by an attacker. Effectively, the symbolic initial state “fast-forwards” the starting state of the UPEC property to the point in time at which the propagation starts. With every true counterexample to the UPEC property, the SoD can be refined by adding the affected signals to it.
+Repeating this iteratively increases the number of signals in the SoD until a fixed point is reached, where no new propagation is possible. If any of the found information flows violates the targeted security policy, the verification engineer can inspect the corresponding counterexample to
+find the root cause and decide on an appropriate mitigation.</p>
         </div>
 
         <!-- Experiments and Results section -->
         <div id="results" class="content-section fade-in">
-            <h1>Experiments and Results</h1>
+            <h1>Case Studies</h1>
             <div class="experiment-list">
                 <div class="experiment-card">
                     <h3>Transient Execution Side Channels</h3>
@@ -208,7 +248,7 @@
                     </div>
                 </div>
                 <div class="experiment-card">
-                    <h3>PMP Violations</h3>
+                    <h3>Functional Security Bugs in SoCs</h3>
                     <p>Found weaknesses in Physical Memory Protection (PMP) that allowed unauthorized access to protected memory regions.</p>
                     <button onclick="toggleDetails('pmp-details')">Learn More</button>
                     <div id="pmp-details" class="details">
@@ -216,8 +256,8 @@
                     </div>
                 </div>
                 <div class="experiment-card">
-                    <h3>Access Violations in SoCs</h3>
-                    <p>Detected access violations within SoC (System-on-Chip) environments that could lead to integrity compromises.</p>
+                    <h3>Operation Integrity in SoCs</h3>
+                    <p>We were able to detect a Denial-of-Service attack using an untrusted IP in OpenTitan</p>
                     <button onclick="toggleDetails('soc-details')">Learn More</button>
                     <div id="soc-details" class="details">
                         <p>Access control issues were identified, revealing the need for stricter enforcement in complex SoC designs.</p>
@@ -229,7 +269,7 @@
 
     <!-- Footer -->
     <div class="footer">
-        <p>&copy; 2023 UPEC Verification Group | <a href="#contact">Contact Us</a></p>
+        <p>&copy; 2024 Chair of Electronic Design Automation | RPTU Kaiserslautern-Landau | <a href="https://eit.rptu.de/fgs/eis/">Contact Us</a></p>
     </div>
 
     <script>
