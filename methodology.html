@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPEC Verification</title>
+    <style>
+        /* Global styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            display: flex;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        /* Top Header styling */
+        .top-header {
+            background-color: #042c58;
+            color: white;
+            padding: 10px;
+            text-align: right;
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .top-header a {
+            color: white;
+            margin-left: 15px;
+            text-decoration: none;
+        }
+        .top-header a:hover {
+            text-decoration: underline;
+        }
+        /* Sidebar styling */
+        .sidebar {
+            background-color: #042c58;
+            color: #ffffff;
+            padding: 60px 20px 20px;
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            text-align: center;
+            font-weight: normal;
+        }
+        .sidebar a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .sidebar a:hover {
+            background-color: #6ab2e7;
+        }
+        /* Main content styling */
+        .main {
+            margin-left: 250px;
+            padding: 80px 20px 20px;
+            width: calc(100% - 250px);
+            background-color: #f4f4f4;
+            margin-top: 50px; /* Adjusted to provide space for the sticky header */
+            flex: 1; /* Ensures main content fills available space */
+        }
+        h1 {
+            color: #042c58;
+            margin-bottom: 15px;
+        }
+        h2 {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        /* Sections styling */
+        .content-section {
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .content-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Experiment cards styling */
+        .experiment-list {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .experiment-card {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            width: calc(50% - 10px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .experiment-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .experiment-card h3 {
+            color: #042c58;
+            margin-bottom: 10px;
+        }
+        /* "Learn More" button and details styling */
+        .details {
+            margin-top: 10px;
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .experiment-card button {
+            margin-top: 10px;
+            background-color: #042c58;
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .experiment-card button:hover {
+            background-color: #6ab2e7;
+        }
+        /* Footer styling */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #042c58;
+            color: #ffffff;
+            font-size: 14px;
+            position: relative;
+            width: 100%;
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+        .footer a:hover {
+            color: #6ab2e7;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Header with quick links -->
+    <div class="top-header">
+        <a href="index.html">Home</a>
+        <a href="https://eit.rptu.de/fgs/eis/">Contact</a>
+        <a href="https://eit.rptu.de/fgs/eis/people">Our Team</a>
+    </div>
+
+    <!-- Sidebar navigation -->
+    <div class="sidebar">
+        <h2>UPEC</h2>
+    	<a href="index.html">Overview</a>
+    	<a href="methodology.html" style="background-color: #6ab2e7">Methodology</a>
+    	<a href="results.html">Case Studies</a>
+    </div>
+    
+    <!-- Main content area -->
+    <div class="main">
+
+	<!-- Methodology section -->
+        <div id="methodology" class="content-section fade-in">
+            <h1>Methodology</h1>
+
+            <p>Given an RTL design, UPEC can exhaustively detect and track every possible propagation of confidential information or malicious interference, without augmenting source code or explicitly labelling the signals. This is made possible by the underlying computational model calles "miter".</p>
+                <h2>Computational Model</h2>
+                <img src="UPEC_computational_model.png" alt="UPEC Computational Model" style="max-width:35%; height:auto; margin-top:15px; border-radius:8px;">
+                <p>The miter consists of two identical instances
+of the design under verification (DUV), where each instance
+models an execution trace of the DUV. Every logic signal
+in the DUV is initialized to an arbitrary value which is,
+however, constrained to be the same in both DUV instances
+in the miter. The only unconstrained signals are contained
+in a defined set of state-holding signals and inputs, called
+the Source of Discrepancy (SoD). The miter allows us to
+model the propagation of information from the SoD to any
+signal in the DUV by comparing the two execution traces.
+The SoD is selected depending on the threat model. If
+confidentiality of data is being verified, the SoD consists
+of signals holding private data, e.g., a protected memory
+region. Alternatively, if system integrity is the verification
+target, then the SoD comprises the signals in an untrusted
+HW component. UPEC determines whether such an IP can
+interfere with the protected state of the system by detecting
+a malicious propagation from the SoD.</p>
+
+                <h2>Generic UPEC Property</h2>
+
+                <img src="generic_UPEC_property.png" alt="Generic UPEC Property" style="max-width:35%; height:auto; margin-top:15px; border-radius:8px;">
+
+                <p>We formulate a generic UPEC property which assumes that, at timepoint t, all state-holding signals S of the DUV have the same values in both instances, except for the SoD. Similarly, all inputs I not in the SoD are constrained to be equal for the time window [t, t + k].
+Depending on the application, it may be necessary to specify additional assumptions, e.g., an unprivileged user or a configured protection mechanism. This is represented by the threat_model() macro. The property then verifies that, for the given time window [t, t + k], there is no
+new deviation of the remaining state-holding signals or the outputs O. Since the SoD represents the only difference in the system, every counterexample must originate from this set.
+
+The UPEC property does not depend on the functional correctness of the DUV, since it merely analyzes equivalence between the two instances. Abstracting from the functional correctness of the DUV contributes greatly to the scalability of the method. In addition, UPEC is based on Interval
+Property Checking (IPC) which makes it possible to handle long propagation paths. In IPC, proofs do not start from the reset state of the DUV, but from any arbitrary state, called symbolic initial state. This allows us to implicitly model any history of the DUV, such as mistraining branch
+predictors by an attacker. Effectively, the symbolic initial state “fast-forwards” the starting state of the UPEC property to the point in time at which the propagation starts. With every true counterexample to the UPEC property, the SoD can be refined by adding the affected signals to it.
+Repeating this iteratively increases the number of signals in the SoD until a fixed point is reached, where no new propagation is possible. If any of the found information flows violates the targeted security policy, the verification engineer can inspect the corresponding counterexample to
+find the root cause and decide on an appropriate mitigation.</p>
+        </div>
+
+       <!-- <div id="video" class="content-section fade-in">
+	  <h1>Presentation at RISC-V Summit Europe 2024</h1>
+
+		<iframe width="1280" height="720"
+			src="https://www.youtube-nocookie.com/embed/Iv1N9-B0vUo" title="Unique Program Execution Checking: Formal Security Guarantees for RISC-V Systems - Alex Wezel, RPTU" frameborder="0" allowfullscreen>
+		</iframe> 
+
+	</div> -->
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Chair of Electronic Design Automation | RPTU Kaiserslautern-Landau | <a href="https://eit.rptu.de/fgs/eis/">Contact Us</a></p>
+    </div>
+
+    <script>
+        function toggleDetails(id) {
+            const details = document.getElementById(id);
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Highlight active sidebar link based on scroll position
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.content-section');
+            const sidebarLinks = document.querySelectorAll('.sidebar a');
+            let index = sections.length;
+            while (--index && window.scrollY + 100 < sections[index].offsetTop) {}
+            sidebarLinks.forEach(link => link.classList.remove('active'));
+            sidebarLinks[index].classList.add('active');
+        });
+
+        // Animate content on scroll
+        const fadeIns = document.querySelectorAll('.fade-in');
+        function checkFadeIn() {
+            fadeIns.forEach(fadeIn => {
+                const rect = fadeIn.getBoundingClientRect();
+                if (rect.top < window.innerHeight) {
+                    fadeIn.classList.add('visible');
+                }
+            });
+        }
+        window.addEventListener('scroll', checkFadeIn);
+        window.addEventListener('load', checkFadeIn);
+    </script>
+</body>
+</html>
+

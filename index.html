@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UPEC Verification</title>
+    <title>UPEC</title>
     <style>
         /* Global styling */
         * {
@@ -68,9 +68,7 @@
         .sidebar a:hover {
             background-color: #6ab2e7;
         }
-        .sidebar a.active {
-            background-color: #6ab2e7;
-        }
+
         /* Main content styling */
         .main {
             margin-left: 250px;
@@ -175,101 +173,168 @@
     <!-- Sidebar navigation -->
     <div class="sidebar">
         <h2>UPEC</h2>
-        <a href="#overview">Overview</a>
-        <a href="#methodology">Methodology</a>
-        <a href="#results">Case Studies</a>
+    	<a href="index.html" style="background-color: #6ab2e7">Overview</a>
+    	<a href="methodology.html">Methodology</a>
+    	<a href="results.html">Case Studies</a>
     </div>
-    
+
     <!-- Main content area -->
     <div class="main">
         <!-- Overview section -->
         <div id="overview" class="content-section fade-in">
             <h1>Unique Program Execution Checking</h1>
-            <p>Unique Program Execution Checking (UPEC) is a verification methodology designed to assess the security of programs in the presence of confidential information, commonly referred to as "secrets." At its core, UPEC aims to determine whether the execution of a program remains invariant despite the presence of such secrets. This is formalized through the concept of unique program execution, which asserts that a program's behavior must not depend on the secret value across all execution cycles. To achieve this, UPEC constructs a tailored miter model where two instances of a CPU execute the same program under identical conditions, except for one protected memory location that contains the secret. By examining variations in execution behavior at the microarchitectural level—known as the "microarchitectural footprint"—UPEC identifies potential vulnerabilities that could arise from secret-dependent variations, which may not be evident at the instruction set architecture (ISA) level. This comprehensive approach allows for the verification of security properties in complex out-of-order processors, ensuring that sensitive information remains secure throughout program execution..</p>
+            <p>Unique Program Execution Checking (UPEC) is a verification methodology designed to assess the security of programs in the presence of confidential information, commonly referred to as "secrets." At its core, UPEC aims to determine whether the execution of a program remains invariant despite the presence of such secrets. This is formalized through the concept of unique program execution, which asserts that a program's behavior must not depend on the secret value across all execution cycles. To achieve this, UPEC constructs a tailored miter model where two instances of a CPU execute the same program under identical conditions, except for one protected memory location that contains the secret. By examining variations in execution behavior at the microarchitectural level - known as the "microarchitectural footprint" - UPEC identifies potential vulnerabilities that could arise from secret-dependent variations, which may not be evident at the instruction set architecture (ISA) level. This comprehensive approach allows for the verification of security properties in complex out-of-order processors, ensuring that sensitive information remains secure throughout program execution.</p>
+            <a href="methodology.html" class="button">Learn More</a>
         </div>
         
-        <!-- Methodology section -->
-        <div id="methodology" class="content-section fade-in">
-            <h1>Methodology</h1>
-            <p>Given an RTL design, UPEC can exhaustively detect and track every possible propagation of confidential information or malicious interference, without augmenting source code or explicitly labelling the signals. This is made possible by the underlying computational model calles "miter".</p>
-                <h2>Computational Model</h2>
-                <img src="UPEC_computational_model.png" alt="UPEC Computational Model" style="max-width:35%; height:auto; margin-top:15px; border-radius:8px;">
-                <p>The miter consists of two identical instances
-of the design under verification (DUV), where each instance
-models an execution trace of the DUV. Every logic signal
-in the DUV is initialized to an arbitrary value which is,
-however, constrained to be the same in both DUV instances
-in the miter. The only unconstrained signals are contained
-in a defined set of state-holding signals and inputs, called
-the Source of Discrepancy (SoD). The miter allows us to
-model the propagation of information from the SoD to any
-signal in the DUV by comparing the two execution traces.
-The SoD is selected depending on the threat model. If
-confidentiality of data is being verified, the SoD consists
-of signals holding private data, e.g., a protected memory
-region. Alternatively, if system integrity is the verification
-target, then the SoD comprises the signals in an untrusted
-HW component. UPEC determines whether such an IP can
-interfere with the protected state of the system by detecting
-a malicious propagation from the SoD.</p>
-                <h2>Generic UPEC Property</h2>
+        <!-- Findings section -->
+        <div id="findings" class="content-section fade-in">
+            <h1>Vulnerabilities detected by UPEC</h1>
+    		<p>The following table summarizes various findings of vulnerabilities to microarchitectural attacks that have been detected using the UPEC methodology.</p>
+    		<table style="width: 100%; border-collapse: collapse; margin-top: 15px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+       			<thead>
+            		<tr style="background-color: #042c58; color: white; text-align: left;">
+               			<th style="padding: 10px;">Device</th>
+                		<th style="padding: 10px;">Type of Vulnerability</th>
+                		<th style="padding: 10px;">Description</th>
+                		<th style="padding: 10px;">Detected by</th>
+				<th style="padding: 10px;">Disclosed</th>
+                		<th style="padding: 10px;">Publication</th>
+                		<th style="padding: 10px;">Fix Available?</th>
+            			</tr>
+        		</thead>
+        		<tbody>
+            		<tr style="border-bottom: 1px solid #ddd;">
+                		<td style="padding: 10px;"><a href="https://github.com/chipsalliance/rocket-chip" target="_blank" style="color: #042c58; text-decoration: underline;">Rocket Chip</a></td>
+                		<td style="padding: 10px;">PMP violation</td>
+                		<td style="padding: 10px;">The PMP implementation allowed the modification of a locked memory configuration in privileged mode without requiring a reboot.</td>
+                		<td style="padding: 10px;">UPEC</td>
+				<td style="padding: 10px;">Mar. 25, 2019</td>
+                		<td style="padding: 10px;">M.R. Fadiheh, D. Stoffel, C. Barrett, S. Mitra and W. Kunz: <a href="https://ieeexplore.ieee.org/abstract/document/8715004" target="_blank" style="color: #042c58; text-decoration: underline;">Processor Hardware Security Vulnerabilities and their Detection by Unique Program Execution Checking</a>, 2019 Design, Automation & Test in Europe Conference & Exhibition (DATE)</td>
+                		<td style="padding: 10px;">Yes</td>
+            		</tr>
+            		<tr style="border-bottom: 1px solid #ddd;">
+                		<td style="padding: 10px;" rowspan="3">BOOMv2</td>
+                		<td style="padding: 10px;">Spectre</td>
+               		 	<td style="padding: 10px;">Multiple variants of Spectre-PHT and Spectre-BTB using the cache as a side channel</td>
+                		<td style="padding: 10px;">UPEC-OoO</td>
+				<td style="padding: 10px;">July 20, 2020</td>
+                		<td style="padding: 10px;">M.R. Fadiheh, J. Müller, R. Brinkmann, S. Mitra, D. Stoffel and W. Kunz: <a href="https://ieeexplore.ieee.org/abstract/document/9218572" target="_blank" style="color: #042c58; text-decoration: underline;">A Formal Approach for Detecting Vulnerabilities to Transient Execution Attacks in Out-of-Order Processors</a> 2020 57th ACM/IEEE Design Automation Conference (DAC)</td>
+                		<td style="padding: 10px;">No</td>
+            		</tr>
+            		<tr style="border-bottom: 1px solid #ddd;">
+                		<td style="padding: 10px;">Spectre-STC</td>
+               		 	<td style="padding: 10px;">Port contention on write port to register file</td>
+                		<td style="padding: 10px;">UPEC-OoO</td>
+				<td style="padding: 10px;">July 20, 2020</td>
+                		<td style="padding: 10px;">M.R. Fadiheh, J. Müller, R. Brinkmann, S. Mitra, D. Stoffel and W. Kunz: <a href="https://ieeexplore.ieee.org/abstract/document/9218572" target="_blank" style="color: #042c58; text-decoration: underline;">A Formal Approach for Detecting Vulnerabilities to Transient Execution Attacks in Out-of-Order Processors</a> 2020 57th ACM/IEEE Design Automation Conference (DAC)</td>
+                		<td style="padding: 10px;">No</td>
+            		</tr>
+            		<tr style="border-bottom: 1px solid #ddd;">
+                		<td style="padding: 10px;">Spectre-STC</td>
+               		 	<td style="padding: 10px;">Port contention on TLB</td>
+                		<td style="padding: 10px;">UPEC-OoO</td>
+				<td style="padding: 10px;">July 20, 2020</td>
+                		<td style="padding: 10px;">M.R. Fadiheh, J. Müller, R. Brinkmann, S. Mitra, D. Stoffel and W. Kunz: <a href="https://ieeexplore.ieee.org/abstract/document/9218572" target="_blank" style="color: #042c58; text-decoration: underline;">A Formal Approach for Detecting Vulnerabilities to Transient Execution Attacks in Out-of-Order Processors</a> 2020 57th ACM/IEEE Design Automation Conference (DAC)</td>
+                		<td style="padding: 10px;">No</td>
+            		</tr>
+            		<tr style="border-bottom: 1px solid #ddd;">
+                		<td style="padding: 10px;" rowspan="3">BOOMv3 (SonicBOOM)</td>
+                		<td style="padding: 10px;">Meltdown</td>
+               		 	<td style="padding: 10px;">Delayed exception handling in load-store-unit</td>
+                		<td style="padding: 10px;">UPEC-OoO</td>
+				<td style="padding: 10px;">May 6, 2021</td>
+                		<td style="padding: 10px;">T. Jauch, A. Wezel, M.R. Fadiheh, P. Schmitz, S. Ray, J. Fung, C.W. Fletcher, D. Stoffel, W. Kunz: <a href="https://ieeexplore.ieee.org/abstract/document/10323843" target="_blank" style="color: #042c58; text-decoration: underline;">Secure-by-Construction Design Methodology for CPUs: Implementing Secure Speculation on the RTL</a> 2023 IEEE/ACM International Conference on Computer Aided Design (ICCAD)</td>
+                		<td style="padding: 10px;"><a href="https://github.com/RPTU-EIS/SecureBOOM" target="_blank" style="color: #042c58; text-decoration: underline;">Yes</a></td>
+            		</tr>
+            		<tr style="border-bottom: 1px solid #ddd;">
+                		<td style="padding: 10px;">Spectre</td>
+               		 	<td style="padding: 10px;">UPEC identified a total number of 29 instructions being able to form a covert channel:<br/><br/>LB, LBU, LH, LHU, LW,<br/>BEQ, BNE, BGE, BGEU, BLT, BLTU, JALR,<br/>STA (for all store instructions),<br/>DIV, DIVU, DIVW, DIVUW,<br/>REM, REMU, REMW, REMUW,<br/>FDIV.S, FDIV.D, FSQRT.S, and FSQRT.D</td>
+                		<td style="padding: 10px;">UPEC-OoO</td>
+				<td style="padding: 10px;">Oct. 20, 2023</td>
+                		<td style="padding: 10px;">T. Jauch, A. Wezel, M.R. Fadiheh, P. Schmitz, S. Ray, J. Fung, C.W. Fletcher, D. Stoffel, W. Kunz: <a href="https://ieeexplore.ieee.org/abstract/document/10323843" target="_blank" style="color: #042c58; text-decoration: underline;">Secure-by-Construction Design Methodology for CPUs: Implementing Secure Speculation on the RTL</a> 2023 IEEE/ACM International Conference on Computer Aided Design (ICCAD)</td>
+                		<td style="padding: 10px;"><a href="https://github.com/RPTU-EIS/SecureBOOM" target="_blank" style="color: #042c58; text-decoration: underline;">Yes</a></td>
+            		</tr>
+            		<tr style="border-bottom: 1px solid #ddd;">
+                		<td style="padding: 10px;">Data-Dependent Timing</td>
+               		 	<td style="padding: 10px;">Data-dependent timing behaviour for all division, load/store, jump, branch, and floating-point instructions</td>
+                		<td style="padding: 10px;">UPEC-DIT</td>
+				<td style="padding: 10px;">Aug. 25, 2023</td>
+                		<td style="padding: 10px;">L. Deutschmann, J. Müller, M.R. Fadiheh, D. Stoffel, W. Kunz:  <a href="https://ieeexplore.ieee.org/abstract/document/10462490" target="_blank" style="color: #042c58; text-decoration: underline;">A Scalable Formal Verification Methodology for Data-Oblivious Hardware</a> in IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems, vol. 43, no. 9, pp. 2551-2564, Sept. 2024</td>
+                		<td style="padding: 10px;">No</td>
+            		</tr>
+            		<tr style="border-bottom: 1px solid #ddd;">
+                		<td style="padding: 10px;">CVA6</td>
+                		<td style="padding: 10px;">Data-Dependent Timing</td>
+                		<td style="padding: 10px;">Data-dependent timing behaviour for all division, load/store, jump, and branch instructions</td>
+                		<td style="padding: 10px;">UPEC-DIT</td>
+				<td style="padding: 10px;">Aug. 23, 2022</td>
+                		<td style="padding: 10px;">L. Deutschmann, J. Müller, M.R. Fadiheh, D. Stoffel, W. Kunz: <a href="https://dl.acm.org/doi/abs/10.1145/3489517.3530981" target="_blank" style="color: #042c58; text-decoration: underline;">Towards a formally verified hardware root-of-trust for data-oblivious computing</a> 2022 59th ACM/IEEE Design Automation Conference (DAC)</td>
+                		<td style="padding: 10px;">No</td>
+            		</tr>
+            		<tr style="border-bottom: 1px solid #ddd;">
+                		<td style="padding: 10px;"><a href="https://opentitan.org/book/hw/top_earlgrey/doc/datasheet.html" target="_blank" style="color: #042c58; text-decoration: underline;">OpenTitan</a></td>
+                		<td style="padding: 10px;">Integrity Violation</td>
+                		<td style="padding: 10px;">Denial-of-Service (DoS) via untrusted IP</td>
+                		<td style="padding: 10px;">UPEC-OI</td>
+				<td style="padding: 10px;">Aug. 9, 2023</td>
+                		<td style="padding: 10px;">D. Mehmedagić, M.R. Fadiheh, J. Müller, A.L. Duque Antón, D. Stoffel, W. Kunz: <a href="https://www.usenix.org/conference/usenixsecurity23/presentation/mehmedagic" target="_blank" style="color: #042c58; text-decoration: underline;">Design of Access Control Mechanisms in Systems-on-Chip with Formal Integrity Guarantees</a> 2023 32nd USENIX Security Symposium (USENIX Security 23)</td>
+                		<td style="padding: 10px;">No</td>
+            		</tr>
+        		</tbody>
+    		</table>
+	</div>
 
-                <img src="generic_UPEC_property.png" alt="Generic UPEC Property" style="max-width:35%; height:auto; margin-top:15px; border-radius:8px;">
-
-                <p>We formulate a generic UPEC property which assumes that, at timepoint t, all state-holding signals S of the DUV have the same values in both instances, except for the SoD. Similarly, all inputs I not in the SoD are constrained to be equal for the time window [t, t + k].
-Depending on the application, it may be necessary to specify additional assumptions, e.g., an unprivileged user or a configured protection mechanism. This is represented by the threat_model() macro. The property then verifies that, for the given time window [t, t + k], there is no
-new deviation of the remaining state-holding signals or the outputs O. Since the SoD represents the only difference in the system, every counterexample must originate from this set.
-
-The UPEC property does not depend on the functional correctness of the DUV, since it merely analyzes equivalence between the two instances. Abstracting from the functional correctness of the DUV contributes greatly to the scalability of the method. In addition, UPEC is based on Interval
-Property Checking (IPC) which makes it possible to handle long propagation paths. In IPC, proofs do not start from the reset state of the DUV, but from any arbitrary state, called symbolic initial state. This allows us to implicitly model any history of the DUV, such as mistraining branch
-predictors by an attacker. Effectively, the symbolic initial state “fast-forwards” the starting state of the UPEC property to the point in time at which the propagation starts. With every true counterexample to the UPEC property, the SoD can be refined by adding the affected signals to it.
-Repeating this iteratively increases the number of signals in the SoD until a fixed point is reached, where no new propagation is possible. If any of the found information flows violates the targeted security policy, the verification engineer can inspect the corresponding counterexample to
-find the root cause and decide on an appropriate mitigation.</p>
+<!-- Experiments and Results section -->
+<div id="results" class="content-section fade-in">
+    <h1>Case Studies</h1>
+    <div class="experiment-list">
+        <div class="experiment-card">
+            <h3>Transient Execution Side Channels</h3>
+            <p>Exposed issues in speculative execution that allowed leakage of secret data due to mispredicted hardware paths.</p>
+            <a href="results.html#transient-execution" class="button">Learn More</a>
         </div>
-
-        <!-- Experiments and Results section -->
-        <div id="results" class="content-section fade-in">
-            <h1>Case Studies</h1>
-            <div class="experiment-list">
-                <div class="experiment-card">
-                    <h3>Transient Execution Side Channels</h3>
-                    <p>Exposed issues in speculative execution that allowed leakage of secret data due to mispredicted hardware paths.</p>
-                    <button onclick="toggleDetails('transient-details')">Learn More</button>
-                    <div id="transient-details" class="details">
-                        <p>UPEC identified these risks by checking for speculative behavior at the microarchitectural level, safeguarding sensitive data.</p>
-                    </div>
-                </div>
-                <div class="experiment-card">
-                    <h3>Timing Side Channels</h3>
-                    <p>Detected timing-based vulnerabilities where certain memory access timings could reveal confidential data.</p>
-                    <button onclick="toggleDetails('timing-details')">Learn More</button>
-                    <div id="timing-details" class="details">
-                        <p>Further analysis revealed timing discrepancies in specific memory access, potentially leaking information to unauthorized observers.</p>
-                    </div>
-                </div>
-                <div class="experiment-card">
-                    <h3>Functional Security Bugs in SoCs</h3>
-                    <p>Found weaknesses in Physical Memory Protection (PMP) that allowed unauthorized access to protected memory regions.</p>
-                    <button onclick="toggleDetails('pmp-details')">Learn More</button>
-                    <div id="pmp-details" class="details">
-                        <p>UPEC demonstrated these access control vulnerabilities, providing insights for improving security in several processor cores.</p>
-                    </div>
-                </div>
-                <div class="experiment-card">
-                    <h3>Operation Integrity in SoCs</h3>
-                    <p>We were able to detect a Denial-of-Service attack using an untrusted IP in OpenTitan</p>
-                    <button onclick="toggleDetails('soc-details')">Learn More</button>
-                    <div id="soc-details" class="details">
-                        <p>Access control issues were identified, revealing the need for stricter enforcement in complex SoC designs.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="experiment-card">
+            <h3>Timing Side Channels</h3>
+            <p>Detected timing-based vulnerabilities where certain memory access timings could reveal confidential data.</p>
+            <a href="results.html#timing-side-channels" class="button">Learn More</a>
         </div>
+        <div class="experiment-card">
+            <h3>Functional Security Bugs in SoCs</h3>
+            <p>Found weaknesses in Physical Memory Protection (PMP) that allowed unauthorized access to protected memory regions.</p>
+            <a href="results.html#functional-security-bugs" class="button">Learn More</a>
+        </div>
+        <div class="experiment-card">
+            <h3>Operation Integrity in SoCs</h3>
+            <p>We were able to detect a Denial-of-Service attack using an untrusted IP in OpenTitan.</p>
+            <a href="results.html#operation-integrity" class="button">Learn More</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .button {
+        display: inline-block;
+        background-color: #042c58;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-top: 10px;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #6ab2e7;
+    }
+</style>
+
     </div>
 
     <!-- Footer -->
     <div class="footer">
-        <p>&copy; 2024 Chair of Electronic Design Automation | RPTU Kaiserslautern-Landau | <a href="https://eit.rptu.de/fgs/eis/">Contact Us</a></p>
+        <p>&copy; 2025 Chair of Electronic Design Automation | RPTU Kaiserslautern-Landau | <a href="https://eit.rptu.de/fgs/eis/">Contact Us</a></p>
     </div>
 
     <script>
