@@ -160,6 +160,21 @@
         .footer a:hover {
             color: #6ab2e7;
         }
+    	.button {
+        	display: inline-block;
+        	background-color: #042c58;
+        	color: #ffffff;
+        	text-decoration: none;
+        	padding: 10px 15px;
+        	border-radius: 5px;
+        	margin-top: 10px;
+        	font-size: 14px;
+        	transition: background-color 0.3s ease;
+    	}
+
+    	.button:hover {
+        	background-color: #6ab2e7;
+    	}
     </style>
 </head>
 <body>
@@ -172,7 +187,9 @@
 
     <!-- Sidebar navigation -->
     <div class="sidebar">
-        <h2>UPEC</h2>
+	<center>
+	<img src="UPEC_Logo.png" alt="UPEC Logo" style="max-width:150px; height:auto; align:center; margin-top:15px; border-radius:8px;">
+	</center>
     	<a href="index.html" style="background-color: #6ab2e7">Overview</a>
     	<a href="methodology.html">Methodology</a>
     	<a href="results.html">Case Studies</a>
@@ -218,7 +235,7 @@
                 		<td style="padding: 10px;">Spectre</td>
                		 	<td style="padding: 10px;">Multiple variants of Spectre-PHT and Spectre-BTB using the cache as a side channel</td>
                 		<td style="padding: 10px;">UPEC-OoO</td>
-				<td style="padding: 10px;">July 20, 2020</td>
+				<td style="padding: 10px;">Jul. 20, 2020</td>
                 		<td style="padding: 10px;">M.R. Fadiheh, J. Müller, R. Brinkmann, S. Mitra, D. Stoffel and W. Kunz: <a href="https://ieeexplore.ieee.org/abstract/document/9218572" target="_blank" style="color: #042c58; text-decoration: underline;">A Formal Approach for Detecting Vulnerabilities to Transient Execution Attacks in Out-of-Order Processors</a> 2020 57th ACM/IEEE Design Automation Conference (DAC)</td>
                 		<td style="padding: 10px;">No</td>
             		</tr>
@@ -226,7 +243,7 @@
                 		<td style="padding: 10px;">Spectre-STC</td>
                		 	<td style="padding: 10px;">Port contention on write port to register file</td>
                 		<td style="padding: 10px;">UPEC-OoO</td>
-				<td style="padding: 10px;">July 20, 2020</td>
+				<td style="padding: 10px;">Jul. 20, 2020</td>
                 		<td style="padding: 10px;">M.R. Fadiheh, J. Müller, R. Brinkmann, S. Mitra, D. Stoffel and W. Kunz: <a href="https://ieeexplore.ieee.org/abstract/document/9218572" target="_blank" style="color: #042c58; text-decoration: underline;">A Formal Approach for Detecting Vulnerabilities to Transient Execution Attacks in Out-of-Order Processors</a> 2020 57th ACM/IEEE Design Automation Conference (DAC)</td>
                 		<td style="padding: 10px;">No</td>
             		</tr>
@@ -234,7 +251,7 @@
                 		<td style="padding: 10px;">Spectre-STC</td>
                		 	<td style="padding: 10px;">Port contention on TLB</td>
                 		<td style="padding: 10px;">UPEC-OoO</td>
-				<td style="padding: 10px;">July 20, 2020</td>
+				<td style="padding: 10px;">Jul. 20, 2020</td>
                 		<td style="padding: 10px;">M.R. Fadiheh, J. Müller, R. Brinkmann, S. Mitra, D. Stoffel and W. Kunz: <a href="https://ieeexplore.ieee.org/abstract/document/9218572" target="_blank" style="color: #042c58; text-decoration: underline;">A Formal Approach for Detecting Vulnerabilities to Transient Execution Attacks in Out-of-Order Processors</a> 2020 57th ACM/IEEE Design Automation Conference (DAC)</td>
                 		<td style="padding: 10px;">No</td>
             		</tr>
@@ -281,6 +298,15 @@
                 		<td style="padding: 10px;">D. Mehmedagić, M.R. Fadiheh, J. Müller, A.L. Duque Antón, D. Stoffel, W. Kunz: <a href="https://www.usenix.org/conference/usenixsecurity23/presentation/mehmedagic" target="_blank" style="color: #042c58; text-decoration: underline;">Design of Access Control Mechanisms in Systems-on-Chip with Formal Integrity Guarantees</a> 2023 32nd USENIX Security Symposium (USENIX Security 23)</td>
                 		<td style="padding: 10px;">No</td>
             		</tr>
+            		<tr style="border-bottom: 1px solid #ddd;">
+                		<td style="padding: 10px;"><a href="https://github.com/microsoft/cheriot-ibex" target="_blank" style="color: #042c58; text-decoration: underline;">CHERIoT-Ibex</a></td>
+                		<td style="padding: 10px;">Meltdown-style attack</td>
+                		<td style="padding: 10px;">Possibility to probe for specific bits of a data word outside the current compartment.</td>
+                		<td style="padding: 10px;">UPEC-CHERI</td>
+				<td style="padding: 10px;">Jul. 26, 2024</td>
+                		<td style="padding: 10px;">A.L. Duque Antón, J. Müller, P. Schmitz, T. Jauch, A. Wezel, L. Deutschmann, M.R. Fadiheh, D. Stoffel, W. Kunz: <a href="https://doi.org/10.1145/3676536.3676841" target="_blank" style="color: #042c58; text-decoration: underline;">VeriCHERI: Exhaustive Formal Security Verification of CHERI at the RTL</a> 2024 IEEE/ACM International Conference on Computer Aided Design (ICCAD)</td>
+                		<td style="padding: 10px;"><a href="https://github.com/microsoft/cheriot-ibex/commit/876a46ab0746e7b6d7a31a72eb834737d8076aca" target="_blank" style="color: #042c58; text-decoration: underline;">Yes</td>
+            		</tr>
         		</tbody>
     		</table>
 	</div>
@@ -291,44 +317,26 @@
     <div class="experiment-list">
         <div class="experiment-card">
             <h3>Transient Execution Side Channels</h3>
-            <p>Exposed issues in speculative execution that allowed leakage of secret data due to mispredicted hardware paths.</p>
+            <p>UPEC exposed issues in out-of-order processors that allowed leakage of secret data due to mispredicted speculative execution paths.</p>
             <a href="results.html#transient-execution" class="button">Learn More</a>
         </div>
         <div class="experiment-card">
             <h3>Timing Side Channels</h3>
-            <p>Detected timing-based vulnerabilities where certain memory access timings could reveal confidential data.</p>
+            <p>UPEC-DIT detected timing-based vulnerabilities in various cores and hardware accelerator where data-dependent execution could reveal confidential data.</p>
             <a href="results.html#timing-side-channels" class="button">Learn More</a>
         </div>
         <div class="experiment-card">
-            <h3>Functional Security Bugs in SoCs</h3>
-            <p>Found weaknesses in Physical Memory Protection (PMP) that allowed unauthorized access to protected memory regions.</p>
+            <h3>Functional Security Bugs</h3>
+            <p>UPEC found weaknesses in Physical Memory Protection (PMP) that allowed unauthorized access to protected memory regions.</p>
             <a href="results.html#functional-security-bugs" class="button">Learn More</a>
         </div>
         <div class="experiment-card">
             <h3>Operation Integrity in SoCs</h3>
-            <p>We were able to detect a Denial-of-Service attack using an untrusted IP in OpenTitan.</p>
+            <p>UPEC-OI was able to detect a Denial-of-Service attack using an untrusted IP in OpenTitan.</p>
             <a href="results.html#operation-integrity" class="button">Learn More</a>
         </div>
     </div>
 </div>
-
-<style>
-    .button {
-        display: inline-block;
-        background-color: #042c58;
-        color: #ffffff;
-        text-decoration: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        margin-top: 10px;
-        font-size: 14px;
-        transition: background-color 0.3s ease;
-    }
-
-    .button:hover {
-        background-color: #6ab2e7;
-    }
-</style>
 
     </div>
 
